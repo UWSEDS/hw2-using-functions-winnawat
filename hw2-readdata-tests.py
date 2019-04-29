@@ -22,6 +22,7 @@ def test_create_dataframe(df):
 def test_colnames(df):
     '''
     Check if the dataframe contains only the columns specified in imported dataset.
+    Revision: Added .sort() to ensure that the order of columns do not matter.
     '''
     df_isgood = True
     colnames = [
@@ -56,7 +57,10 @@ def test_colnames(df):
         'hydropower_GW',
         'hydropower_countOfSites'
     ]
-    if list(df.columns) == colnames:
+    colnames.sort()
+    df_colnames = list(df.columns)
+    df_colnames.sort()
+    if df_colnames == colnames:
         df_isgood = True
         return df_isgood
     else:
@@ -66,29 +70,33 @@ def test_colnames(df):
 def test_datatypes(df):
     '''
     Check if the dataframe's columns' datatypes are according to the dataframe specified in imported dataset.
+    Revision: Added .sort() and reshuffle the hard-coded column names and types
+    to ensure that the order of columns do not matter.
     '''
     df_isgood = True
     dtype_index = np.array([
-        'urbanUtilityScalePV_GWh', 'urbanUtilityScalePV_GW',
-        'urbanUtilityScalePV_km2', 'ruralUtilityScalePV_GWh',
-        'ruralUtilityScalePV_GW', 'ruralUtilityScalePV_km2', 'rooftopPV_GWh',
-        'rooftopPV_GW', 'CSP_GWh', 'CSP_GW', 'CSP_km2', 'onshoreWind_GWh',
-        'onshoreWind_GW', 'onshoreWind_km2', 'offshoreWind_GWh',
-        'offshoreWind_GW', 'offshoreWind_km2', 'biopowerSolid_GWh',
-        'biopowerSolid_GW', 'biopowerSolid_BDT', 'biopowerGaseous_GWh',
-        'biopowerGaseous_GW', 'biopowerGaseous_Tonnes-CH4',
-        'geothermalHydrothermal_GWh', 'geothermalHydrothermal_GW',
-        'EGSGeothermal_GWh', 'EGSGeothermal_GW', 'hydropower_GWh',
-        'hydropower_GW', 'hydropower_countOfSites'
+        'CSP_GW', 'CSP_GWh', 'CSP_km2', 'EGSGeothermal_GW',
+        'EGSGeothermal_GWh', 'biopowerGaseous_GW', 'biopowerGaseous_GWh',
+        'biopowerGaseous_Tonnes-CH4', 'biopowerSolid_BDT',
+        'biopowerSolid_GW', 'biopowerSolid_GWh',
+        'geothermalHydrothermal_GW', 'geothermalHydrothermal_GWh',
+        'hydropower_GW', 'hydropower_GWh', 'hydropower_countOfSites',
+        'offshoreWind_GW', 'offshoreWind_GWh', 'offshoreWind_km2',
+        'onshoreWind_GW', 'onshoreWind_GWh', 'onshoreWind_km2',
+        'rooftopPV_GW', 'rooftopPV_GWh', 'ruralUtilityScalePV_GW',
+        'ruralUtilityScalePV_GWh', 'ruralUtilityScalePV_km2',
+        'urbanUtilityScalePV_GW', 'urbanUtilityScalePV_GWh',
+        'urbanUtilityScalePV_km2'
     ])
     dtype_columns = np.array([
-        'int64', 'int64', 'int64', 'int64', 'int64', 'int64', 'float64',
+        'int64', 'int64', 'int64', 'float64', 'float64', 'int64', 'int64',
         'int64', 'int64', 'int64', 'int64', 'int64', 'int64', 'int64',
-        'float64', 'float64', 'float64', 'int64', 'int64', 'int64',
-        'int64', 'int64', 'int64', 'int64', 'int64', 'float64', 'float64',
+        'int64', 'int64', 'float64', 'float64', 'float64', 'int64',
+        'int64', 'int64', 'int64', 'float64', 'int64', 'int64', 'int64',
         'int64', 'int64', 'int64'
     ])
     datatypes = pd.Series(dtype_columns,index=dtype_index)
+    df = df.reindex(sorted(df.columns), axis=1)
     if df.dtypes.equals(datatypes):
         df_isgood = True
         return df_isgood
