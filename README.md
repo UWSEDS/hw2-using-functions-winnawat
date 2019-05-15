@@ -1,6 +1,11 @@
 # HW2 - Using Functions
 
-##### Grade: 6/7
+##### Final grade: 7/7  
+
+-0: Thanks for updating the code according to my previous comments. However, you are using complex functions (such as pd.Series) to achieve something that is easily achievable with if tests. Consider simplifying your code further.     
+
+
+Grade: 6/7
 
 -1: Your test implicitly depended on the order of the columns. But in reality, two dataframes should be considered "equal" if they have the same columns but in different orders.
 
